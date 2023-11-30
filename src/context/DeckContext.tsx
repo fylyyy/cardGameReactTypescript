@@ -6,9 +6,9 @@ interface DeckContextProps {
   actualCard: DrawResponse | null;
   previousCard: DrawResponse | null;
   loading: boolean;
-  setDeckInfo: (info: DeckResponse) => void;
-  setActualCard: (card: DrawResponse) => void;
-  setPreviousCard: (card: DrawResponse) => void;
+  setDeckInfo: (info: DeckResponse | null) => void;
+  setActualCard: (card: DrawResponse | null) => void;
+  setPreviousCard: (card: DrawResponse | null) => void;
   setLoading: (loading: boolean) => void;
   valueMatches: number;
   suitMatches: number;

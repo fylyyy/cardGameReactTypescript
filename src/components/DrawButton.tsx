@@ -1,6 +1,6 @@
 import React from "react";
 import { useDeckContext } from "../context/DeckContext";
-import { drawCard } from "../services/DeckApi";
+import { drawCard } from "../services/DeckApi"; // Import the drawCard function
 
 const DrawButton: React.FC = () => {
   const {
@@ -21,6 +21,16 @@ const DrawButton: React.FC = () => {
     if (deckInfo && deckInfo.remaining > 0) {
       setLoading(true);
       const newCard = await drawCard(deckInfo.deck_id);
+      actualCard && setPreviousCard(actualCard);
+      setActualCard(newCard);
+      if (actualCard) {
+        if (newCard.cards[0].value === actualCard.cards[0].value) {
+          setValueMatches(valueMatches + 1);
+        }
+        if (newCard.cards[0].suit === actualCard.cards[0].suit) {
+          setSuitMatches(suitMatches + 1);
+        }
+      }
 
       if (newCard.remaining === 0) {
         setLoading(false);
@@ -28,19 +38,9 @@ const DrawButton: React.FC = () => {
         alert(
           `Deck finished. Value Matches: ${valueMatches}, Suit Matches: ${suitMatches}`
         );
+        setActualCard(null);
+        setPreviousCard(null);
         return;
-      }
-
-      if (actualCard) {
-        setPreviousCard(actualCard);
-        setActualCard(newCard);
-
-        if (newCard.cards[0].value === actualCard.cards[0].value) {
-          setValueMatches(valueMatches + 1);
-        }
-        if (newCard.cards[0].suit === actualCard.cards[0].suit) {
-          setSuitMatches(suitMatches + 1);
-        }
       }
 
       setLoading(false);
